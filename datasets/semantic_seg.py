@@ -72,6 +72,37 @@ class BaseSemanticDataset(VisionDataset):
     def __len__(self):
         return len(self.img_names)
 
+class DeepGlobeDataset(BaseSemanticDataset):
+    def __init__(self, dataset_dir, transform, target_transform,
+                 image_set='train',
+                 img_suffix='sat.jpg',
+                 ann_suffix='mask.png',
+                 data_prefix: dict = dict(img_path='img', ann_path='ann'),
+                 return_dict=False):
+        metainfo = dict(class_names=['road', 'background'])
+        super(DeepGlobeDataset, self).__init__(metainfo=metainfo, dataset_dir=dataset_dir, transform=transform,
+                                               target_transform=target_transform,
+                                               image_set=image_set,
+                                               img_suffix=img_suffix,
+                                               ann_suffix=ann_suffix,
+                                               data_prefix=data_prefix,
+                                               return_dict=return_dict)
+        def __getitem__(self,index):
+            img = Image.open(os.path.join(self.img_path, self.img_names[index] + self.img_suffix))
+            ann = Image.open(os.path.join(self.ann_path, self.img_names[index] + self.ann_suffix))
+            if self.transforms is not None:
+                img, ann = self.transforms(img, ann)
+            ann = np.array(ann)
+
+            if self.return_dict:
+                data = dict(img_name=self.img_names[index], img=img, ann=ann,
+                            img_path=os.path.join(self.img_path, self.img_names[index] + self.img_suffix),
+                            ann_path=os.path.join(self.ann_path, self.img_names[index] + self.ann_suffix))
+                return data
+            return img, ann
+        def __len__(self):
+            return super(DeepGlobeDataset, self).__len__()
+
 
 class VOCSemanticDataset(Dataset):
     def __init__(self, root_dir, domain, transform, with_id=False, with_mask=False):

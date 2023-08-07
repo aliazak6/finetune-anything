@@ -1,11 +1,12 @@
 from .detection import BaseDetectionDataset
 from .instance_seg import BaseInstanceDataset
-from .semantic_seg import BaseSemanticDataset, VOCSemanticDataset, TorchVOCSegmentation
+from .semantic_seg import BaseSemanticDataset, VOCSemanticDataset, TorchVOCSegmentation, DeepGlobeDataset
 from .transforms import get_transforms
 from torchvision.datasets import VOCSegmentation
 
 segment_datasets = {'base_ins': BaseInstanceDataset, 'base_sem': BaseSemanticDataset,
-                    'voc_sem': VOCSemanticDataset, 'torch_voc_sem': TorchVOCSegmentation}
+                    'voc_sem': VOCSemanticDataset, 'torch_voc_sem': TorchVOCSegmentation
+                    ,'deep_globe': DeepGlobeDataset}
 det_dataset = {'base_det': BaseDetectionDataset, }
 
 

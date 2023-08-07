@@ -9,16 +9,15 @@ train:
       fix_img_en: True
       fix_prompt_en: True
       fix_mask_de: False
-      ckpt_path: 'sam_ckpt/sam_vit_b_01ec64.pth'
-      class_num: 21 # 20 + 1
-      model_type: 'vit_b'    # type should be in [vit_h, vit_b, vit_l, default]
+      ckpt_path: 'sam_vit_h_4b8939.pth'
+      class_num: 2 # 20 + 1
+      model_type: 'vit_h'    # type should be in [vit_h, vit_b, vit_l, default]
 
   # Dataset
   dataset:
-    name: 'torch_voc_sem'
+    name: 'deep_globe'
     params:
-      root: '/data/jinziqi/DATASETS/'
-      year: '2012'
+      dataset_dir: '/home/ali/Downloads/DeepGlobeDataset/'
       image_set: 'train'
     transforms:
       resize:
@@ -60,7 +59,7 @@ train:
   num_workers: 2
   drop_last: True
   # Logger
-  use_tensorboard: True
+  use_tensorboard: False
   tensorboard_folder: './experiment/tensorboard'
   log_folder: './experiment/log'
   model_folder: './experiment/model'
@@ -68,11 +67,10 @@ train:
 val:
   # Dataset
   dataset:
-    name: 'torch_voc_sem'
+    name: 'deep_globe'
     params:
-      root: '/data/jinziqi/DATASETS/'
-      year: '2012'
-      image_set: 'train'
+      dataset_dir: '/home/ali/Downloads/DeepGlobeDataset/'
+      image_set: 'val'
     transforms:
       resize:
         params:
